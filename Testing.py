@@ -24,24 +24,11 @@ X_train, y_train = vectorize_images(
     image_paths, labels
 )
 
-nn = NN(input_size=IMAGE_WIDTH * IMAGE_HEIGHT, hidden_size=40, output_size=1)
-nn.train(X_train, y_train, epochs=800, learning_rate=0.01)
+nn = NN(input_size=IMAGE_WIDTH * IMAGE_HEIGHT, hidden_size=30, output_size=1)
+nn.train(X_train, y_train, epochs=300, learning_rate=0.01)
 
-"""
-# Prueba
-X_test, _ = vectorize_images([test_image_true], [0])  # Label no importa para predicción
-prediction = nn.predict(X_test)
-
-pred_final = prediction[0][0]
-# Print the result based on the prediction
-if pred_final > 0.5:
-    print(f"Prediction for image: Same person (confidence: {pred_final*100:.2f}%)")
-else:
-    print(f"Prediction for image: Different person (confidence: {pred_final*100:.2f}%)")
-    
-"""
 for test_path in [test_image_true, test_image_impostor]:
     X_test, _ = vectorize_images([test_path], [1])
     pred = nn.predict(X_test)[0][0]
-    label = "Same person" if pred > 0.50 else "Different person"
+    label = "MISMA PERSONA" if pred > 0.50 else "PERSONA DISTINTA"
     print(f"{test_path} → {label} ({pred*100:.2f}% confidence)")
